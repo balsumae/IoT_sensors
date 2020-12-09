@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>IoT Sensor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+            integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.4/css/jquery.dataTables.css">
+            
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>     		
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>	
+    <script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+
+        <style>
+            * {
+            box-sizing: border-box;
+            }
+            
+            /* Style the body */
+            body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            }
+            
+            /* Header/logo Title */
+            .header {
+            padding: 80px;
+            text-align: center;
+            background: #1abc9c;
+            color: white;
+            }
+            
+            /* Increase the font size of the heading */
+            .header h1 {
+            font-size: 40px;
+            }
+            
+            /* Style the top navigation bar */
+            .navbar {
+            overflow: hidden;
+            background-color: #333;
+            }
+            
+            /* Style the navigation bar links */
+            .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            }
+
+            /* Style the buttons */
+            .button {
+            background-color: #555555;
+            border: none;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            width: 250px;
+            }
+
+            /* Right-aligned link */
+            .navbar a.right {
+            float: right;
+            }
+            
+            /* Column container */
+            .row {  
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE10 */
+            flex-wrap: wrap;
+            }
+            
+            /* Create two unequal columns that sits next to each other */
+            /* Sidebar/left column */
+            .side {
+            -ms-flex: 20%; /* IE10 */
+            flex: 20%;
+            background-color: #f1f1f1;
+            padding: 20px;
+            }
+            
+            /* Main column */
+            .main {   
+            -ms-flex: 80%; /* IE10 */
+            flex: 80%;
+            background-color: white;
+            padding: 20px;
+            }
+
+            /* Style the tables */
+            #temp {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 1 em;
+            }
+            #temp td, #temp th {
+            border: 1px solid #ddd;
+            padding: 12px;
+            }
+            #temp tr:nth-child(even){background-color: #f2f2f2;}
+            #temp tr:hover {background-color: #ddd;}
+            #temp th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #800000;
+            color: white;
+            }
+            /* Style the table */
+            #door {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 1 em;
+            }
+
+            #door td, #door th {
+            border: 1px solid #ddd;
+            padding: 12px;
+            }
+            #door tr:nth-child(even){background-color: #f2f2f2;}
+            #door tr:hover {background-color: #ddd;}
+            #door th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #800000;
+            color: white;
+            }
+            /* Footer */
+            .footer {
+            padding: 20px;
+            text-align: center;
+            background: #ddd;
+            }
+            /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 700px) {
+            .row {   
+                flex-direction: column;
+            }
+            }
+            /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+            @media screen and (max-width: 400px) {
+            .navbar a {
+                float: none;
+                width: 100%;
+            }
+            }
+        </style>
+</head>
+
+<body>
+
+    <div class="header">
+      <h1>IoT Sensors Monitor</h1>
+    </div>
+    
+    <div class="navbar">
+        <a> Overview</a>
+        <a class="right">Refrigerator Sensor</a>
+    </div>
+    
+    <div class="row">
+      <div class="side">
+        <button class="button button4" type="submit" id="btnTemperature">View Temperature Records</button>
+        <br>
+        <button class="button button4" type="submit" id="btnDoor">View Door  Records</button>
+      </div>
+      <div class="main">
+
+        <div>
+            <table  class="table table-striped" id="temp" class="display" cellspacing="0" width="70%">
+              <thead ></thead>
+              <tbody></tbody>
+            </table>
+            <table class="table table-striped" id="door" class="display" cellspacing="0" width="70%">
+                <thead ></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+  
+        <script type="text/javascript">
+            
+                
+            const btnTemerature = document.getElementById("btnTemperature");
+            btnTemerature.addEventListener("click", async () =>{
+                loadTemperature();
+                var table = $('#temp');
+                // refresh table content
+                var refresher = setInterval(function(){
+                    table.load(loadTemperature());
+                }, 5000);
+                setTimeout(function() {
+                    clearInterval(refresher);
+                }, 1800000);
+            });
+            async function loadTemperature(){
+                const result = await fetch('/fetchData/temperature', {"method": "GET", "headers": {"content-type": "application/json"},});
+                const jResult = await result.json();
+                var temperature = '';
+        
+                for (var i=0; i < jResult.length; i++){
+                        var y = i + 1
+                        temperature += '<tr class="active-row">';
+                        temperature += '<td>' + y + '</td>';
+                        temperature += '<td>' + jResult[i].software_id + '</td>';
+                        temperature += '<td>' + jResult[i].value_of_sensor + '</td>';
+                        temperature += '<td>' + jResult[i].alert_of_sensor + '</td>';
+                        var timestamp = Number(jResult[i].timestamp_of_reading);
+                        var date = new Date(timestamp);
+                        temperature += '<td>' + date + '</td>';
+                        temperature += '</tr>';
+                    
+                }
+                
+                    document.querySelector("#temp thead").innerHTML = '<tr> <th>id</th> <th>software id</th> <th>temperature</th> <th>alert</th> <th>thimestamp</th> </tr>';
+                    document.querySelector("#temp tbody").innerHTML = temperature;
+
+                    $(document).ready(function() {
+                            $('#temp').DataTable( {
+                                searching: false,
+                                ordering: false,
+                                destroy: true,
+                                responsive: true,
+                                order: [[4, 'desc']],
+                                lengthChange: false
+                            } );
+                        });
+            }
+
+
+
+            
+
+
+
+            const btnDoor = document.getElementById("btnDoor");
+            btnDoor.addEventListener("click", async () =>{
+                var table = $('#door');
+                
+                var refresher = setInterval(function(){
+                    table.load(loadDoor());
+                }, 5000);
+                setTimeout(function() {
+                    clearInterval(refresher);
+                }, 1800000);
+                loadDoor();
+            });
+            async function loadDoor(){
+                const result = await fetch('/fetchData/door', {"method": "GET", "headers": {"content-type": "application/json"},});
+                const jResult = await result.json();
+                var door = '';
+        
+                for (var i=0; i < jResult.length; i++){
+                    var y = i + 1
+                        door += '<tr>';
+                        door += '<td>' + y + '</td>';
+                        door += '<td>' + jResult[i].software_id + '</td>';
+                        door += '<td>' + jResult[i].value_of_sensor + '</td>';
+                        door += '<td>' + jResult[i].alert_of_sensor + '</td>';
+                        var timestamp = Number(jResult[i].timestamp_of_reading);
+                        var date = new Date(timestamp);
+                        door += '<td>' + date + '</td>';
+                    door += '</tr>';
+                } 
+                
+                    document.querySelector("#door thead").innerHTML = '<tr> <th>id</th> <th>software id</th> <th>is door open</th> <th>alert</th> <th>timestamp</th> </tr>';
+                    document.querySelector("#door tbody").innerHTML = door;
+
+                    $(document).ready(function() {
+                            $('#door').DataTable( {
+                                searching: false,
+                                ordering: false,
+                                destroy: true,
+                                responsive: true,
+                                order: [[4, 'desc']],
+                                lengthChange: false
+                            } );
+                        });
+                    
+            }
+        </script>
+        </div>
+    </div>
+    
+    <div class="footer">
+    </div>
+    
+</body>
+</html>
